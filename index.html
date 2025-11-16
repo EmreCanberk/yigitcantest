@@ -6,6 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>YiğitcanAhmetcan Testi</title>
     <style>
+        #footerText {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    color: gold;
+    font-weight: bold;
+    font-size: 14px;
+    text-shadow: 0 0 5px #ffd700;
+    pointer-events: none; /* üzerine tıklanmasın */
+    z-index: 9999;
+}
+
         body {
             margin: 0;
             font-family: Arial, sans-serif;
@@ -109,6 +121,8 @@
         <div id="emoji"></div>
         <img id="finalPhoto" src="" style="width:100%;border-radius:14px;border:2px solid #ffd700;" />
     </div>
+    <div id="footerText">Made in Martianli</div>
+
 
     <script>
         // BAŞLAT BUTONU MÜZİĞİ VE QUIZİ AÇAR
