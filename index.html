@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YiğitcanAhmetcan Testi</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0f14, #1a2b33);
+            color: white;
+            text-align: center;
+        }
+
+        #startMusic {
+            margin-top: 100px;
+            padding: 18px 35px;
+            font-size: 24px;
+            border-radius: 14px;
+            border: none;
+            background: #00cc66;
+            color: black;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        #startMusic:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px #00cc66;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 420px;
+            background: #1b1b1b;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+            display: none;
+            margin: auto;
+        }
+
+        .question-img {
+            width: 100%;
+            border-radius: 12px;
+            margin-bottom: 14px;
+            border: 2px solid #ffd700;
+        }
+
+        .score-btn {
+            padding: 12px 18px;
+            margin: 6px;
+            font-size: 20px;
+            background: #ffd700;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        #finish {
+            display: none;
+        }
+
+        #finalScreen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stars {
+            font-size: 40px;
+            animation: pop 0.6s ease;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(0);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- BAŞLAT BUTONU -->
+    <button id="startMusic">BAŞLAT</button>
+    <audio id="bgmusic" src="valz.mp3" loop></audio>
+
+    <!-- QUIZ KUTUSU -->
+    <div id="quiz" class="container">
+        <h2 id="question"></h2>
+        <img id="qImg" class="question-img" src="" />
+        <div id="options"></div>
+        <button id="nextBtn" class="score-btn">DEVAM</button>
+        <button id="finish" class="score-btn">TESTİ BİTİR</button>
+    </div>
+
+    <!-- FİNAL EKRANI -->
+    <div id="finalScreen" class="container">
+        <h1 id="finalText"></h1>
+        <div id="emoji"></div>
+        <img id="finalPhoto" src="" style="width:100%;border-radius:14px;border:2px solid #ffd700;" />
+    </div>
+
+    <script>
+        // BAŞLAT BUTONU MÜZİĞİ VE QUIZİ AÇAR
+        startMusicBtn = document.getElementById("startMusic");
+        startMusicBtn.onclick = () => {
+            document.getElementById("bgmusic").play();
+            startMusicBtn.style.display = "none";
+            document.getElementById("quiz").style.display = "block";
+            loadQuestion();
+        };
+
+        // SORULAR
+        const questions = [
+            { q: "Sizce YiğitcanAhmetcan lider bir kişilik mi?", img: "lider.png" },
+            { q: "Türkçeyi ne kadar etkin kullanabilir?", img: "türkçe.png" },
+            { q: "Başkent'i kaybetme konusunda nasıldır?", img: "grup1.png" },
+            { q: "Ne kadar yakışıklı?", img: "karizma.png" },
+            { q: "Havuza girmekten korkar mı?", img: "havuz.png" },
+            { q: "En sevdiği mayosu sarı renkli midir?", img: "mayo.png" },
+            { q: "Gruba attığı fotoğraflar karizmatiklik açısından nasıldır?", img: "grup.png" },
+            { q: "Tiktok'u kullanıyor mu?", img: "tiktok.png" },
+            { q: "Kişisel Asistanı Kerimcan ile yakışıyorlar mı?", img: "kerim.png" },
+            { q: "TOF'u iyi yönetiyor mu?", img: "lider1.png" }
+        ];
+
+        let index = 0;
+        let totalScore = 0;
+
+        function loadQuestion() {
+            const q = questions[index];
+            document.getElementById("question").innerText = q.q;
+            document.getElementById("qImg").src = q.img;
+
+            let optHtml = "";
+            for (let i = 1; i <= 5; i++) {
+                optHtml += `<button class='score-btn' onclick='selectScore(${i})'>${i}</button>`;
+            }
+            document.getElementById("options").innerHTML = optHtml;
+
+            document.getElementById("nextBtn").style.display = "none";
+        }
+
+        function selectScore(s) {
+            totalScore += s;
+            document.getElementById("nextBtn").style.display = "inline-block";
+            if (index === questions.length - 1) {
+                document.getElementById("finish").style.display = "inline-block";
+            }
+        }
+
+        nextBtn = document.getElementById("nextBtn");
+        nextBtn.onclick = () => {
+            index++;
+            loadQuestion();
+        };
+
+        finishBtn = document.getElementById("finish");
+        finishBtn.onclick = showFinal;
+
+        function showFinal() {
+            document.getElementById("quiz").style.display = "none";
+            document.getElementById("finalScreen").style.display = "flex";
+
+            document.getElementById("finalText").innerText = `50 üzerinden ${totalScore} kadar YiğitcanAhmetcankoliksin!`;
+
+            let e = "";
+            if (totalScore >= 40) e = "😎🔥";
+            else if (totalScore >= 25) e = "🙂✨";
+            else e = "😭💀";
+            document.getElementById("emoji").innerHTML = `<div class='stars'>${e}</div>`;
+
+            document.getElementById("finalPhoto").src = "sonuç.png";
+        }
+    </script>
+
+</body>
+
+</html>
